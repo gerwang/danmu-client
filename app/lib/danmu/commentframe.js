@@ -4,7 +4,7 @@ let Frame = require('./frame')
 let Comment = require('./comment')
 
 /**
- * 弹幕frame对象，继承字Frame对象
+ * 弹幕frame对象，继承自Frame对象
  * @param width
  * @param height
  * @param canvasContext

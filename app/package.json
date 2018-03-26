@@ -3,11 +3,10 @@
   "version": "1.1.0-dev",
   "description": "Danmu client",
   "main": "./main.js",
-  "author": "zsx <zsx@zsxsoft.com>",
+  "author": "zsx <zsx@zsxsoft.com>, gerw <gerwang@outlook.com>",
   "license": "MIT",
   "homepage": "https://github.com/zsxsoft/danmu-client",
   "dependencies": {
-    "socket.io-client": "^2.0.3",
     "windows-caption-color": "0.0.6"
   }
 }

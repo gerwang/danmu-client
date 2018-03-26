@@ -43,20 +43,21 @@
     "danmu",
     "danmaku"
   ],
-  "author": "zsx <zsx@zsxsoft.com>",
+  "author": "zsx <zsx@zsxsoft.com>, gerw <gerwang@outlook.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/zsxsoft/danmu-client/issues"
   },
   "homepage": "https://github.com/zsxsoft/danmu-client",
   "dependencies": {
-    "socket.io-client": "^2.0.3",
+    "async": "^2.6.0",
+    "mysql": "^2.15.0",
     "windows-caption-color": "0.0.6"
   },
   "devDependencies": {
     "7zip-bin": "^2.2.3",
     "babel-eslint": "^7.2.3",
-    "electron": "^1.7.5",
+    "electron": "^1.8.4",
     "electron-builder": "^19.22.1",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",

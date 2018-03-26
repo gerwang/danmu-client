@@ -12,7 +12,7 @@ let safeUrl = []
 /**
  * 检测URL是否合法
  * @param  string content
- * @return bool        
+ * @return bool
  */
 function checkUrlValidate (content) {
   let regex = config.image.regex
@@ -32,6 +32,7 @@ function checkUrlValidate (content) {
       return false // 文件在上级目录或其他目录，判定为非法
     }
     if (!fs.existsSync(unsafePath)) { // 文件不存在，判定为非法
+      console.log('本地文件不存在')
       return false
     }
   }
@@ -55,8 +56,8 @@ class Player {
   }
 
   /**
-     * 初始化方法
-     */
+   * 初始化方法
+   */
   setup (insertObject, elementId) {
     this.insertElement = insertObject
     let w = this.insertElement.offsetWidth // 控件的宽
@@ -68,9 +69,9 @@ class Player {
   }
 
   /**
-     * 控制弹幕
-     * @param action
-     */
+   * 控制弹幕
+   * @param action
+   */
   controlDanmu (action) {
     if (action === 'play') {
       this.frame.begin()
@@ -84,8 +85,8 @@ class Player {
   }
 
   /**
-     * 创建canvas元素
-     */
+   * 创建canvas元素
+   */
   addCanvasElement (elementId, width, height) {
     let e = window.document.createElement('canvas')
     e.id = elementId
@@ -98,8 +99,8 @@ class Player {
   }
 
   /**
-     * 将从服务器取得所有弹幕的内容，进行解析，放入this.danmus
-     */
+   * 将从服务器取得所有弹幕的内容，进行解析，放入this.danmus
+   */
   parseDanmus (jsonResp) {
     let nowTime = (new Date()).valueOf()
 
@@ -107,7 +108,10 @@ class Player {
     jsonResp.forEach(danmu => {
       // 先检测图片弹幕
       if (config.display.image) {
-        if (!checkUrlValidate(danmu.text)) return
+        if (!checkUrlValidate(danmu.text)) {
+          console.log('检测到非法图片')
+          return
+        }
       }
       danmu.font = danmu.textStyle
       danmu.lifeTime4TimeStamp = danmu.lifeTime * 1000 / 60
@@ -119,8 +123,8 @@ class Player {
   }
 
   /**
-     * 弹幕精灵添加
-     */
+   * 弹幕精灵添加
+   */
   addDanmu () {
     this.danmus.forEach(info => {
       if (info.style === 'custom') {
@@ -132,18 +136,18 @@ class Player {
   }
 
   /**
-     * 弹幕精灵删除
-     */
+   * 弹幕精灵删除
+   */
   deleteDanmus (ids) {
     this.frame.deleteSprites(ids)
   }
 
   /**
-     * 显示/隐藏弹幕的处理函数
-     */
+   * 显示/隐藏弹幕的处理函数
+   */
   toggleDanmu () {
     if (this.frame.visible) { // 弹幕可见
-      this.frame.clearDanmu() // 情况当前所有待渲染弹幕
+      this.frame.clearDanmu() // 清空当前所有待渲染弹幕
       this.frame.render() // 重绘一帧空的屏幕
       this.frame.stop() // 停止Frame
       this.frame.visible = false // 设置弹幕标记为不可见

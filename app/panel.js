@@ -31,15 +31,16 @@
     }
   }, true)
 
+  // 5秒内点击2次退出按钮才能真正的关闭
   document.querySelector('#btn-quit').addEventListener('click', () => {
     if (countQuitValue === 1) {
       coordinator.emit('exit')
     } else {
       setTimeout(() => {
-        document.querySelector('#btn-quit').innerText = '退出程序'
+        document.querySelector('#btn-quit').innerText = '退出弹幕'
         countQuitValue = 0
       }, 5000)
-      this.innerText = '再按一次'
+      document.querySelector('#btn-quit').innerText = '再按一次'
       countQuitValue = 1
     }
     return false

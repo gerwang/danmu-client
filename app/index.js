@@ -1,18 +1,9 @@
 'use strict';
 (() => {
-  const electron = require('electron')
-  const windows = electron.remote.getGlobal('windows')
-  //    const coordinator = electron.remote.getGlobal('coordinator');
-  const {shell} = electron
   const path = require('path')
   const fs = require('fs')
-  const danmu = require('./lib/danmu')
-  const listener = require('./lib/listener')
-
-  const crypto = require('crypto')
-  const packageJson = require('./package.json')
-  let isStart = false
-
+  const electron = require('electron')
+  const windows = electron.remote.getGlobal('windows')
   let config = null
   try {
     config = eval(fs.readFileSync(path.resolve('config.js'), 'utf-8')) // eslint-disable-line no-eval
@@ -23,6 +14,14 @@
   }
 
   global.config = config
+  //    const coordinator = electron.remote.getGlobal('coordinator');
+  const {shell} = electron
+  const danmu = require('./lib/danmu')
+  const listener = require('./lib/listener') // 这条一定要在加载config后面
+
+  const crypto = require('crypto')
+  const packageJson = require('./package.json')
+  let isStart = false
 
   function initFunction () {
     windows.mainWindow.setResizable(false) // Electron doesn't support both resizable and transparency
@@ -40,7 +39,7 @@
 
   function keydownFunction (e) {
     switch (e.keyCode) {
-      case 13:
+      case 13:// enter
         if (!isStart) {
           initFunction()
           isStart = true

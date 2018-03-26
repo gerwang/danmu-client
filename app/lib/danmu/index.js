@@ -21,7 +21,7 @@ coordinator.on('deleteDanmu', data => {
 function send (param) {
   player.parseDanmus([param])
   player.controlDanmu('update')
-};
+}
 
 function init (config, listener, object) {
   if (config.image.preload) {
@@ -39,8 +39,7 @@ function init (config, listener, object) {
     coordinator.emit('fps', player.frame.fps)
   }, 1000)
   window.console.log('弹幕初始化完成！')
-};
-
+}
 module.exports = {
   init: init,
   send: send,

@@ -15,21 +15,24 @@ class Comment extends Sprite {
     this.cache = null
     this.text = param.text || '' // 文字内容
     this.lifeTime = param.lifeTime || config.display.comment.lifeTime
-    this.color = param.color || config.display.comment.color
+    this.color = param.color || config.display.comment.fontColor
     this.font = param.font || config.display.comment.fontStyle
+    this.strokeColor = param.strokeColor || config.display.comment.strokeColor
   }
 
   /**
-     * 弹幕的绘制方法
-     */
+   * 弹幕的绘制方法
+   */
   draw (canvasContext) {
     canvasContext.fillStyle = this.color
     canvasContext.font = this.font
+    canvasContext.strokeColor = this.strokeColor
     if (!config.display.image) {
       canvasContext.shadowOffsetX = 1
       canvasContext.shadowOffsetY = 1
       canvasContext.shadowBlur = 1
       canvasContext.fillText(this.text, this.x, this.y + this.height)
+      canvasContext.strokeText(this.text, this.x, this.y + this.height)
       return
     }
 
@@ -76,9 +79,11 @@ class Comment extends Sprite {
           canvasContext.shadowOffsetY = 1
           canvasContext.shadowBlur = 1
           canvasContext.fillText(val.text, x + val.position, actualHeight)
+          canvasContext.strokeText(val.text, x + val.position, actualHeight)
           break
         case DW_IMAGE:
           if (val.object.error) {
+            console.log('绘制图片出错')
             return // 出错
           }
           canvasContext.shadowBlur = 0
@@ -86,7 +91,7 @@ class Comment extends Sprite {
           canvasContext.shadowOffsetY = 0
           if (val.object.loaded) {
             canvasContext.drawImage(val.object.element, x + val.position, y + height / 10 + 1, val.width, height) // 绘制图片
-                        // 10+1是一个修正偏移的魔法数字
+            // 10+1是一个修正偏移的魔法数字
             val.object.loaded = true
           } else {
             utils.tryCatch(() => {
@@ -100,9 +105,10 @@ class Comment extends Sprite {
       }
     })
   }
+
   /**
-     * 更新弹幕的生命状态
-     */
+   * 更新弹幕的生命状态
+   */
   updateLifeTime () {
     this.lifeTime-- // 每刷新一帧，存活时间-1
     this.alive = (this.lifeTime >= 0)

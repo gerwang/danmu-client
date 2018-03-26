@@ -16,7 +16,8 @@ class ImageCache {
     // Analyze text
     while ((ret = this.regex.exec(text)) !== null) {
       let src = ret[2]
-      let imageWidth = parseInt(ret[1])
+      // let imageWidth = parseInt(ret[1])
+      let imageWidth = global.config.display.imageWidth
       let imageObject = this.getImage(src)
       if (imageObject === null) {
         imageObject = this.buildCache(src, imageWidth)
@@ -35,6 +36,7 @@ class ImageCache {
     let image = window.document.createElement('img')
     image.src = parsedUrl.protocol ? src : path.resolve('./', './' + src)
     image.width = width
+    console.log(image.width + ' ' + image.height)
     image.onerror = function () {
       window.console.error('Cannot load ' + src)
       this.cache[src].error = true
