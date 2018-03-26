@@ -15,34 +15,34 @@ class CommentFrame extends Frame {
     super(width, height, canvasContext)
 
     /**
-         * 标志本帧所绘制的弹幕是可见还是隐藏
-         */
+     * 标志本帧所绘制的弹幕是可见还是隐藏
+     */
     this.visible = true
     /**
-         * 保存需要绘制的多层弹幕
-         */
+     * 保存需要绘制的多层弹幕
+     */
     this.layers = []
     /**
-         * 弹幕ID所对应的弹幕层
-         */
+     * 弹幕ID所对应的弹幕层
+     */
     this.idMap = {}
     /**
-         * 创建缓冲画布
-         */
+     * 创建缓冲画布
+     */
     this.bufCanvas = window.document.createElement('canvas')
     this.bufCanvas.width = width
     this.bufCanvas.height = height
     /**
-         * 标识是否打开弹幕
-         */
+     * 标识是否打开弹幕
+     */
     this.danmuState = true
   }
 
   /**
-     * 重设置本frame的宽和高，同时bufCanvas尺寸也随之修改
-     * @param width
-     * @param height
-     */
+   * 重设置本frame的宽和高，同时bufCanvas尺寸也随之修改
+   * @param width
+   * @param height
+   */
   resize (width, height) {
     this.width = width
     this.height = height
@@ -52,11 +52,11 @@ class CommentFrame extends Frame {
   };
 
   /**
-     * @Override
-     * 向Frame中添加弹幕对象.
-     * 在本Frame中根据生成弹幕Sprite.这样当播放器进度seek的时候，重新根据弹幕信息重新new的Sprite对象的x位置是对的；
-     * 如果在Playr中new好了，再根据时间add进来，当播放器往回seek的时候，加进来的是已存在的对象，这时对象的x可能是已经超出显示范围的负数了，不会被再次显示。
-     */
+   * @Override
+   * 向Frame中添加弹幕对象.
+   * 在本Frame中根据生成弹幕Sprite.这样当播放器进度seek的时候，重新根据弹幕信息重新new的Sprite对象的x位置是对的；
+   * 如果在Playr中new好了，再根据时间add进来，当播放器往回seek的时候，加进来的是已存在的对象，这时对象的x可能是已经超出显示范围的负数了，不会被再次显示。
+   */
   addSprite (info) {
     if (!this.danmuState) return
 
@@ -97,10 +97,10 @@ class CommentFrame extends Frame {
     }
 
     /**
-         * 确定弹幕的速度
-         * @param style 弹幕类型
-         * @returns speed{}
-         */
+     * 确定弹幕的速度
+     * @param style 弹幕类型
+     * @returns speed{}
+     */
     function generateSpeed (style, x, y, lifeTime) {
       if (style === 'scroll') {
         return {
@@ -124,11 +124,11 @@ class CommentFrame extends Frame {
     }
 
     /**
-         * 确定弹幕的X坐标
-         * @param style 弹幕类型
-         * @param textWidth 该弹幕的文字内容宽度
-         * @returns x
-         */
+     * 确定弹幕的X坐标
+     * @param style 弹幕类型
+     * @param textWidth 该弹幕的文字内容宽度
+     * @returns x
+     */
     function generateX (style, textWidth) {
       if (style === 'scroll') {
         return that.width
@@ -140,12 +140,12 @@ class CommentFrame extends Frame {
     }
 
     /**
-         * 检查是否与当前Frame中其他弹幕重叠
-         * @param y 本弹幕y坐标
-         * @param size 本弹幕高度
-         * @param index 当前排序所在的弹幕层
-         * @returns {Boolean} true表示有重叠
-         */
+     * 检查是否与当前Frame中其他弹幕重叠
+     * @param y 本弹幕y坐标
+     * @param size 本弹幕高度
+     * @param index 当前排序所在的弹幕层
+     * @returns {Boolean} true表示有重叠
+     */
     function checkDanmu (y, size, index) {
       let currentLayerDanmus = that.layers[index] // 取得当前弹幕层的所有danmus
       for (let i = 0; i < currentLayerDanmus.length; i++) {
@@ -156,13 +156,14 @@ class CommentFrame extends Frame {
       }
       return false // 没有重叠
     }
+
     /**
-         * 确定弹幕的y坐标
-         * @param style 弹幕类型
-         * @param size 该弹幕的高(字号)
-         * @param index 当前排序所在的弹幕层
-         * @returns {} {'y坐标':y,'所在弹幕层号index':index}
-         */
+     * 确定弹幕的y坐标
+     * @param style 弹幕类型
+     * @param size 该弹幕的高(字号)
+     * @param index 当前排序所在的弹幕层
+     * @returns {} {'y坐标':y,'所在弹幕层号index':index}
+     */
     function generateY (style, size, index) {
       if (index > 20) {
         return {
@@ -220,9 +221,9 @@ class CommentFrame extends Frame {
   };
 
   /**
-     * 向Frame中添加自定义弹幕对象.默认渲染在现有层的最后一层即最上层.
-     * @param className 自定义弹幕类
-     */
+   * 向Frame中添加自定义弹幕对象.默认渲染在现有层的最后一层即最上层.
+   * @param className 自定义弹幕类
+   */
   addCustomSprite (info) {
     if (!this.danmuState) return
 
@@ -246,9 +247,9 @@ class CommentFrame extends Frame {
   };
 
   /**
-     * @Override
-     * 对本帧进行分层渲染
-     */
+   * @Override
+   * 对本帧进行分层渲染
+   */
   render () {
     let bufCanvasCtx = this.bufCanvas.getContext('2d')
     this.ctx.clearRect(0, 0, this.width, this.height) // 清空结果画布
@@ -264,8 +265,8 @@ class CommentFrame extends Frame {
   };
 
   /**
-     * 如果播放器seek了，清空所有弹幕
-     */
+   * 如果播放器seek了，清空所有弹幕
+   */
   clearDanmu () {
     for (let i = 0; i < this.layers.length; i++) {
       delete this.layers[i] // 删除相应对象
@@ -276,37 +277,40 @@ class CommentFrame extends Frame {
   };
 
   /**
-     * 停止显示弹幕，停止创建弹幕
-     */
+   * 停止显示弹幕，停止创建弹幕
+   */
   stopDanmu () {
     this.clearDanmu()
     this.danmuState = false
   };
 
   /**
-     * 重新打开弹幕功能
-     */
+   * 重新打开弹幕功能
+   */
   restartDanmu () {
     this.danmuState = true
   };
+
   /**
-     * @Override
-     * 更新CommentFrame中弹幕Sprite的状态
-     */
+   * @Override
+   * 更新CommentFrame中弹幕Sprite的状态
+   */
   updateSprite () {
+    this.updateDeltaTime()
     for (let i = 0; i < this.layers.length; i++) {
       for (let j = 0; j < this.layers[i].length; j++) {
         // 更新位置
-        this.layers[i][j].move()
+        this.layers[i][j].move(this.deltaTime)
         // 更新生命状态
         this.layers[i][j].updateLifeTime()
       }
     }
   };
+
   /**
-     * @Override
-     * 清除已经死亡的Sprite
-     */
+   * @Override
+   * 清除已经死亡的Sprite
+   */
   clearSprite () {
     for (let i = 0; i < this.layers.length; i++) {
       for (let j = 0; j < this.layers[i].length; j++) {
@@ -323,10 +327,10 @@ class CommentFrame extends Frame {
   };
 
   /**
-     * @Override
-     * 删除精灵元素
-     * @param sprite
-     */
+   * @Override
+   * 删除精灵元素
+   * @param sprite
+   */
   deleteSprites (indexs) {
     indexs.forEach(index => {
       if (this.idMap[index]) {
@@ -339,4 +343,5 @@ class CommentFrame extends Frame {
     })
   };
 }
+
 module.exports = CommentFrame

@@ -10,7 +10,7 @@
     user: 'wewall2018',
     password: '!sTu@Fes2018',
     database: 'wewall2018',
-    fetchInterval: 200,
+    fetchInterval: 100,
     censorship: false
   },
   display: {
@@ -18,7 +18,7 @@
       animationStyle: 'scroll',
       fontStyle: 'normal bold 5em 微软雅黑',
       fontColor: 'rgb(255, 255, 255)',
-      lifeTime: 240,
+      lifeTime: 480,
       height: 50,
       strokeColor: 'rgb(0,0,0)'
     },

@@ -25,8 +25,8 @@ class Sprite {
     this.alive = alive || true
     this.children = []
     /**
-         * 精灵移动速度
-         */
+     * 精灵移动速度
+     */
     this.speed = speed || {
       x: 0,
       y: 0
@@ -37,25 +37,27 @@ class Sprite {
 
   }
 
-  move () {
-    this.x += this.speed.x
-    this.y += this.speed.y
+  move (deltaTime) {
+    this.x += this.speed.x * deltaTime * 0.06// default fps: 60
+    this.y += this.speed.y * deltaTime * 0.06
     if (typeof this.children !== 'undefined') {
       for (let i = 0; i < this.children.length; i++) {
         this.children[i].speed = this.speed
-        this.children[i].move()
+        this.children[i].move(deltaTime)
       }
     }
   }
+
   /**
-         * 向此精灵添加一个子精灵
-         */
+   * 向此精灵添加一个子精灵
+   */
   appendChild (sprite) {
     this.children.push(sprite)
   }
+
   /**
-         * 渲染子精灵
-         */
+   * 渲染子精灵
+   */
   drawChildren () {
     this.children.forEach(function (child) {
       child.draw()
@@ -63,8 +65,8 @@ class Sprite {
   }
 
   /**
-     * 删除自身
-     */
+   * 删除自身
+   */
   remove () {
     this.lifeTime = 0
     this.alive = false

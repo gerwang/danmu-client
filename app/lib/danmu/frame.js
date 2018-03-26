@@ -28,6 +28,7 @@ class Frame {
      * 记录FPS
      */
     this.fps = 0
+    this.lastFrameTime = (new Date()).getMilliseconds()
   }
 
   begin () {
@@ -46,8 +47,8 @@ class Frame {
   };
 
   /**
-     * 渲染本帧【可根据需要在子对象中复写此方法】
-     */
+   * 渲染本帧【可根据需要在子对象中复写此方法】
+   */
   render () {
     this.ctx.clearRect(0, 0, this.width, this.height)
     for (let i = 0; i < this.sprites.length; i++) {
@@ -56,8 +57,8 @@ class Frame {
   };
 
   /**
-     * 停止动画
-     */
+   * 停止动画
+   */
   stop () {
     if (this.renderTimer === null) {
       return
@@ -67,16 +68,17 @@ class Frame {
   };
 
   /**
-     * 添加精灵元素
-     * @param sprite
-     */
+   * 添加精灵元素
+   * @param sprite
+   */
   addSprite (sprite) {
     this.sprites.push(sprite)
   };
+
   /**
-     * 删除精灵元素
-     * @param sprite
-     */
+   * 删除精灵元素
+   * @param sprite
+   */
   deleteSprites (indexs) {
     let that = this
     indexs.forEach(function (index) {
@@ -88,28 +90,40 @@ class Frame {
   };
 
   /**
-     * 更新本frame下所有Sprite的位置
-     */
+   * 更新本frame下所有Sprite的位置
+   */
+
+  updateDeltaTime () {
+    let currentFrameTime = (new Date()).getMilliseconds()
+    this.deltaTime = currentFrameTime - this.lastFrameTime
+    this.lastFrameTime = currentFrameTime
+    while (this.deltaTime < 0) {
+      this.deltaTime += 1000
+    }
+  }
+
   updateSprite () {
+    this.updateDeltaTime()
     this.sprites.forEach(sprite => {
-      sprite.move()
+      sprite.move(this.deltaTime)
     })
   };
 
   /**
-     * 清除超出显示范围的精灵元素
-     */
+   * 清除超出显示范围的精灵元素
+   */
   clearSprite () {
     this.sprites.forEach((sprite, index) => {
       if (sprite.x > this.width || this.sprites[index].y > this.height ||
-                sprite.x + sprite.width < 0 ||
-                sprite.y + sprite.height < 0) {
+        sprite.x + sprite.width < 0 ||
+        sprite.y + sprite.height < 0) {
         delete this.sprites[index] // 删除相应对象
         this.sprites = this.sprites.slice(0, index).concat(this.sprites.slice(index + 1, this.sprites.length)) // 清除数组中该位置
       }
     })
   };
 }
+
 /**
  * 计算FPS
  */

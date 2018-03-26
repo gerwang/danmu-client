@@ -9,13 +9,14 @@ let CommentFrame = require('./commentframe')
  * @type {Array}
  */
 let safeUrl = []
+
 /**
  * 检测URL是否合法
  * @param  string content
  * @return bool
  */
 function checkUrlValidate (content) {
-  let regex = config.image.regex
+  let regex = global.config.image.regex
   regex.lastIndex = 0
   let ret = null
   while ((ret = regex.exec(content)) !== null) {
@@ -23,7 +24,7 @@ function checkUrlValidate (content) {
     if (safeUrl[unbelieveUrl]) continue // 加载缓存
     let parsedUrl = url.parse(unbelieveUrl)
     if (parsedUrl.protocol) { // 如果是网络协议就检查白名单
-      return (config.image.whitelist.indexOf(unbelieveUrl) >= 0)
+      return (global.config.image.whitelist.indexOf(unbelieveUrl) >= 0)
     }
     let safePath = path.join('/', unbelieveUrl)
     let filePath = path.resolve('./' + safePath)
@@ -38,6 +39,7 @@ function checkUrlValidate (content) {
   }
   return true
 }
+
 /**
  * 弹幕播放器
  * @constructor
@@ -107,7 +109,7 @@ class Player {
     this.danmus = []
     jsonResp.forEach(danmu => {
       // 先检测图片弹幕
-      if (config.display.image) {
+      if (global.config.display.image) {
         if (!checkUrlValidate(danmu.text)) {
           console.log('检测到非法图片')
           return
@@ -157,4 +159,5 @@ class Player {
     }
   }
 }
+
 module.exports = Player
