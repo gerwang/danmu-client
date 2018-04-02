@@ -71,7 +71,8 @@ class CommentFrame extends Frame {
 
     // 文字的宽度【注意，ctx.measureText(text).width得到文字宽度是基于ctx当前的font的，如果取得width后改变了ctx.font很可能width与实际文字宽度不匹配】
     this.bufCanvas.getContext('2d').font = font
-    let width = this.bufCanvas.getContext('2d').measureText(text).width
+    let imgText = text.replace(config.image.regex, '   ') // one img, three width
+    let width = this.bufCanvas.getContext('2d').measureText(imgText).width
 
     let result = generateY(style, height, 0) // 计算弹幕位置，从第0层弹幕开始
     let y = result.y

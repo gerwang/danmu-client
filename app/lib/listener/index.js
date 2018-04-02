@@ -62,12 +62,10 @@ function fetchDanmu () {
       }), (e, r) => {
         // console.log(e.length + ' ' + r.length)
         // console.log('res.length: ' + res.length)
-        let converted = res.map(x => {
-          return {
-            text: x.content,
-            id: x.id
-          }
-        })
+        let converted = res.map(x => ({
+          text: x.content,
+          id: x.id
+        }))
         console.log('得到了' + converted.length + '条弹幕')
         coordinator.emit('gotDanmu', converted)
         isRun = false
