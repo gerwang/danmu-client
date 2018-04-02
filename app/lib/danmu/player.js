@@ -55,6 +55,7 @@ class Player {
     // 存放解析好的弹幕内容
     this.danmus = []
     this.config = danmuConfig
+    this.styleArray = ['scroll', 'reversescroll', 'staticdown', 'staticup']
   }
 
   /**
@@ -120,6 +121,10 @@ class Player {
       danmu.addTime = nowTime
       danmu.height = parseInt(danmu.height)
       danmu.lifeTime = parseInt(danmu.lifeTime)
+      if (Math.random() < global.config.display.comment.prizeProbability) {
+        danmu.color = '#' + (Math.random() * 0xffffff << 0).toString(16)
+        danmu.style = this.styleArray[Math.floor(Math.random() * this.styleArray.length)]
+      }
       this.danmus.push(danmu)
     })
   }

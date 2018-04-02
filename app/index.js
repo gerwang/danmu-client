@@ -45,6 +45,7 @@
           isStart = true
         }
         break
+
       case 116:
         e.preventDefault()
         break

@@ -15,6 +15,7 @@
   },
   display: {
     comment: {
+      prizeProbability: 0.1,
       animationStyle: 'scroll',
       fontStyle: 'normal bold 5em 微软雅黑',
       fontColor: 'rgb(255, 255, 255)',
